@@ -1,3 +1,36 @@
+# from pydantic import BaseModel
+# from typing import List, Optional
+
+# class MenuItemBase(BaseModel):
+#     name: str
+#     description: Optional[str] = None
+#     price: float
+#     available: bool = True
+
+# class MenuItemCreate(MenuItemBase):
+#     pass
+
+# class MenuItemResponse(MenuItemBase):
+#     id: int
+#     class Config:
+#         orm_mode = True
+
+# class OrderCreate(BaseModel):
+#     customer_name: str
+#     customer_phone: str
+#     items: List[int]
+
+# class OrderResponse(BaseModel):
+#     id: int
+#     customer_name: str
+#     customer_phone: str
+#     items: str
+#     status: str
+#     class Config:
+#         orm_mode = True
+
+
+
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -13,7 +46,8 @@ class MenuItemCreate(MenuItemBase):
 class MenuItemResponse(MenuItemBase):
     id: int
     class Config:
-        orm_mode = True
+        from_attributes = True   # instead of orm_mode
+
 
 class OrderCreate(BaseModel):
     customer_name: str
@@ -27,4 +61,15 @@ class OrderResponse(BaseModel):
     items: str
     status: str
     class Config:
-        orm_mode = True
+        from_attributes = True
+from enum import Enum
+
+class UserRole(str, Enum):
+    customer = "customer"
+    restaurant = "restaurant"
+    delivery = "delivery"
+
+class UpdatePasswordRequest(BaseModel):
+    oldpassword: str
+    newpassword: str
+    confirmpassword: str
